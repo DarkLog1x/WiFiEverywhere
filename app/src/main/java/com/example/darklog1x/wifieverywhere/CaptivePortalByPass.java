@@ -11,6 +11,10 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import java.io.IOException;
 
 
@@ -78,7 +82,7 @@ public class CaptivePortalByPass extends Service {
     };
 
     private void CaptivePortalBypassStart() {
-        Log.w(TAG, "started the captive protal");
+        Log.w(TAG, "started task to see if captive protal is present");
 
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -90,14 +94,22 @@ public class CaptivePortalByPass extends Service {
             Log.w(TAG, "return value of url =" + returnvalue);
 
             if (isWiFi && !returnvalue) {
-                Log.w(TAG, "Network with cpative portal");
+                Log.w(TAG, "Network with captive portal");
+            } else {
+                Log.w(TAG, "Network with internet access");
             }
         }
     }
 
 
     private void GetCaptivePortal() {
-
+        try {
+            Document doc = Jsoup.connect("http://google.com").get();
+            String title = doc.title();
+            Log.w(TAG, "title of page" + title);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //This will test if we are able to ping outside!
