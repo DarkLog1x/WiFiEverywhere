@@ -21,22 +21,28 @@ public class WiFiEverywhereMainActivity extends AppCompatActivity {
         final Button StartCaptiveService = (Button) findViewById(R.id.StartCaptiveService);
         StartCaptiveService.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (!isMyServiceRunning(CaptivePortalByPass.class)) {
+                if (!isMyServiceRunning(CaptivePortalByPass.class) && !isMyServiceRunning(WifiSharing.class)) {
                     startService(new Intent(getBaseContext(), CaptivePortalByPass.class));
+                    startService(new Intent(getBaseContext(), WifiSharing.class));
+
                 } else {
-                    Toast.makeText(getApplicationContext(), "Service already Started", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Services already Started", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
         });
 
         final Button StopCaptiveService = (Button) findViewById(R.id.StopCaptiveService);
         StopCaptiveService.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (isMyServiceRunning(CaptivePortalByPass.class)) {
+                if (isMyServiceRunning(CaptivePortalByPass.class) && isMyServiceRunning(WifiSharing.class)) {
                     stopService(new Intent(getBaseContext(), CaptivePortalByPass.class));
+                    stopService(new Intent(getBaseContext(), WifiSharing.class));
                 } else {
-                    Toast.makeText(getApplicationContext(), "Service already Stopped", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Services already Stopped", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
     }

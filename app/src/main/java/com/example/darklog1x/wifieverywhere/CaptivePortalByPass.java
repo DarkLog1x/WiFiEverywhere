@@ -36,7 +36,7 @@ public class CaptivePortalByPass extends Service {
     public void onCreate() {
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        registerReceiver(receiver, filter);
+        registerReceiver(NetwrokChangereceiver, filter);
     }
 
     @Override
@@ -65,13 +65,13 @@ public class CaptivePortalByPass extends Service {
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(receiver);
+        unregisterReceiver(NetwrokChangereceiver);
         super.onDestroy();
         Toast.makeText(this, "Service Destroyed", Toast.LENGTH_SHORT).show();
     }
 
     //See if the network has changed
-    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+    private final BroadcastReceiver NetwrokChangereceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -106,7 +106,11 @@ public class CaptivePortalByPass extends Service {
         try {
             Document doc = Jsoup.connect("http://google.com").get();
             String title = doc.title();
+
             Log.w(TAG, "title of page" + title);
+
+           // HttpClient httpClient = new DefaultHttpClient();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
